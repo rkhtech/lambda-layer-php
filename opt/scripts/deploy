@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    echo "USAGE:"
+    echo "docker exec -t --rm \\"
+    echo "    -e AWS_ACCESS_KEY_ID=YOURACCESSKEY \\"
+    echo "    -e AWS_SECRET_ACCESS_KEY=YOURSECRETACCESSKEY \\"
+    echo "    -e LAYER_NAME=php73 \\"
+    echo "    rkhtech/lambda-layer-php:73 deploy"
+    echo ""
+    echo "NOTE: you can name the LAYER_NAME whatever you want.  This will be used to name the layer you publish."
+    exit
+}
+
+if [[ -z "$AWS_ACCESS_KEY_ID" ]] || [[ -z "$AWS_SECRET_ACCESS_KEY" ]] || [[ -z "$LAYER_NAME" ]]; then
+    usage
+fi
+
+runtime=$(aws lambda publish-layer-version --layer-name ${LAYER_NAME} --zip-file fileb:///opt/php73.zip)
+echo $runtime | jq '.'
+

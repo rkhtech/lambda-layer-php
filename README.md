@@ -20,5 +20,16 @@ If the layer already exists then it will deploy a new version of the layer with 
 
 ### Expected output:
 ```json
-
+{
+  "Content": {
+    "CodeSize": 26559645,
+    "CodeSha256": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "Location": "https://awslambda-us-west-2-layers.s3.us-west-2.amazonaws.com/snapshots/000000000000/php73-xxxxxxxxxxxxxxxxxx"
+  },
+  "LayerVersionArn": "arn:aws:lambda:us-west-2:000000000000:layer:php73:15",
+  "Version": 15,
+  "Description": "",
+  "CreatedDate": "2019-08-16T23:56:44.202+0000",
+  "LayerArn": "arn:aws:lambda:us-west-2:000000000000:layer:php73"
+}
 ```

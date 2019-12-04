@@ -33,8 +33,7 @@ RUN cd /root && wget http://pecl.php.net/get/memcached-3.1.4.tgz && \
 ## php download page: http://php.net/downloads.php
 ## Download the PHP source   (7.3.12 release date: Nov 21, 2019)
 ENV PHP_VERSION "7.3.12"
-ENV PHP_SHA256 "d617e5116f8472a628083f448ebe4afdbc4ac013c9a890b08946649dcbe61b34
-"
+ENV PHP_SHA256 "d617e5116f8472a628083f448ebe4afdbc4ac013c9a890b08946649dcbe61b34"
 RUN mkdir ~/php-7-bin
 RUN curl -sL https://github.com/php/php-src/archive/php-${PHP_VERSION}.tar.gz | tar -xvz
 

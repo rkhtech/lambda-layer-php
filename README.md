@@ -2,7 +2,7 @@
 This is a pre-complied Lambda layer for PHP
 
 ## Current PHP Version: 7.3.x
-build date: (7.3.8 release date: Aug 1, 2019)
+build date: (7.3.12 release date: Nov 21, 2019)
 
 
 ## Usage and Deployment

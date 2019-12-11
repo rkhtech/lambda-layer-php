@@ -17,6 +17,6 @@ if [[ -z "$AWS_ACCESS_KEY_ID" ]] || [[ -z "$AWS_SECRET_ACCESS_KEY" ]] || [[ -z "
     usage
 fi
 
-runtime=$(aws lambda publish-layer-version --layer-name ${LAYER_NAME} --zip-file fileb:///opt/php73.zip)
+runtime=$(aws lambda publish-layer-version --layer-name ${LAYER_NAME} --zip-file fileb:///opt/$LAYER_NAME.zip)
 echo $runtime | jq '.'
 

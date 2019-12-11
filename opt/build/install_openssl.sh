@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
 
-OPENSSL_VERSION=1.0.2
+#OPENSSL_VERSION=1.1.1
 
 #######################  INSTALL OPENSSL  (Note current version: 1.0.2r)
 # Compile OpenSSL v1.0.1 from source, as Amazon Linux uses a newer version than the Lambda Execution Environment, which
 # would otherwise produce an incompatible binary.
 
-cd /
+cd /opt
 
 case $OPENSSL_VERSION in
-1.1.1)
-    curl -sL http://www.openssl.org/source/openssl-1.1.1b.tar.gz | tar -xvz
-    cd /openssl-1.1.1b && ./config && ./Configure --prefix=/opt/ssl  --openssldir=/opt/ssl linux-x86
+1.1.1d)
+# Default directory is /usr/local/ssl
+    cd openssl-${OPENSSL_VERSION} && ./config && ./Configure linux-x86
+#    cd openssl-${OPENSSL_VERSION} && ./config && ./Configure --prefix=/opt/ssl  --openssldir=/opt/ssl linux-x86
     make && make install
 ;;
-1.0.2)
-    curl -sL http://www.openssl.org/source/openssl-1.0.2r.tar.gz | tar -xvz
-    cd /openssl-1.0.2r && ./config --openssldir=/opt/ssl && make && make install
-;;
-1.0.1)
-    curl -sL http://www.openssl.org/source/openssl-1.0.1k.tar.gz | tar -xvz
-    cd /openssl-1.0.1k && ./config --openssldir=/opt/ssl && make && make install
+1.0.2t)
+#    curl -sL http://www.openssl.org/source/openssl-1.0.2t.tar.gz | tar -xvz
+    cd openssl-${OPENSSL_VERSION} && ./config --openssldir=/opt/ssl && make && make install
 ;;
 esac
 

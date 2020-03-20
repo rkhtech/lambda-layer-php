@@ -27,3 +27,8 @@ cp /usr/local/lib64/libzip* /opt/lib/
 
 
 cd /opt/bison-3.4 && ./configure && make install
+
+cd /opt/freetype-${FREETYPE_VERSION}
+./configure
+make
+make install

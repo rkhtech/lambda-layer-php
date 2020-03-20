@@ -16,3 +16,4 @@ curl -sL https://libzip.org/download/libzip-${LIBZIP_VERSION}.tar.gz | tar -xz
 
 curl -sL http://ftp.gnu.org/gnu/bison/bison-${BISON_VERSION}.tar.gz | tar -xz
 
+curl -sL https://sourceforge.net/projects/freetype/files/freetype2/${FREETYPE_VERSION}/freetype-${FREETYPE_VERSION}.tar.gz | tar -xz

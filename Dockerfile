@@ -14,15 +14,20 @@ FROM amazonlinux:1
 ## ZipLib:
 # https://libzip.org/
 
+## FreeType Downloads
+# https://www.freetype.org/download.html
+
 COPY installation/update_os.sh /opt/installation/update_os.sh
 RUN /opt/installation/update_os.sh
 
 ENV OPENSSL_VERSION 1.0.2t
 ENV BISON_VERSION 3.4
 ENV MEMCACHED_VERSION 3.1.5
-ENV PHP_VERSION 7.4.0
+ENV PHP_VERSION 7.4.4
 ENV CMAKE_VERSION 3.16.0
 ENV LIBZIP_VERSION 1.5.2
+ENV FREETYPE_VERSION 2.10.1
+
 
 COPY installation/download_packages.sh /opt/installation/download_packages.sh
 RUN /opt/installation/download_packages.sh
@@ -66,7 +71,7 @@ RUN cd /opt/php-src-php-${PHP_VERSION} && \
         --disable-shared \
         --with-config-file-path=/opt/ini \
         --with-config-file-scan-dir=/var/task/ini.d \
-        --with-system-ciphers \
+        --with-system-ciphers --enable-gd --with-freetype --with-jpeg \
         --with-curl --with-zlib --with-mysqli --enable-exif \
         --without-sqlite3 --without-pdo-sqlite --disable-session \
         --enable-sockets --enable-mbstring --with-gmp --with-openssl=/opt/ssl

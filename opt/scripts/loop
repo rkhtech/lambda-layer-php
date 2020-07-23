@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while :
+do
+    echo $(date) - endless loop
+    sleep 50
+done

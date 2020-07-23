@@ -23,11 +23,11 @@ RUN /opt/installation/update_os.sh
 ENV OPENSSL_VERSION 1.0.2t
 ENV BISON_VERSION 3.4
 ENV MEMCACHED_VERSION 3.1.5
-ENV PHP_VERSION 7.4.4
 ENV CMAKE_VERSION 3.16.0
 ENV LIBZIP_VERSION 1.5.2
 ENV FREETYPE_VERSION 2.10.1
 
+ENV PHP_VERSION 7.4.7
 
 COPY installation/download_packages.sh /opt/installation/download_packages.sh
 RUN /opt/installation/download_packages.sh
@@ -63,7 +63,8 @@ RUN mkdir ~/php-bin
 #RUN cp -r /opt/ssl/lib/* /opt/lib
 #RUN cp -r /opt/ssl/lib/* /lib
 
-RUN yum install -y oniguruma-devel
+RUN yum install -y oniguruma-devel postgresql-devel
+
 ## Compile PHP with OpenSSL 1.0.1 support, and install to /home/ec2-user/php-bin
 RUN cd /opt/php-src-php-${PHP_VERSION} && \
     ./buildconf --force && \
@@ -72,9 +73,11 @@ RUN cd /opt/php-src-php-${PHP_VERSION} && \
         --with-config-file-path=/opt/ini \
         --with-config-file-scan-dir=/var/task/ini.d \
         --with-system-ciphers --enable-gd --with-freetype --with-jpeg \
-        --with-curl --with-zlib --with-mysqli --enable-exif \
+        --with-curl --with-zlib --with-mysqli --with-pgsql --with-pdo-mysql --with-pdo-pgsql \
+        --enable-exif --enable-mbstring --with-openssl=/opt/ssl \
         --without-sqlite3 --without-pdo-sqlite --disable-session \
-        --enable-sockets --enable-mbstring --with-gmp --with-openssl=/opt/ssl
+        --disable-posix --disable-dom
+#        --enable-sockets
 #        --with-libzip=/opt/lib  --enable-zip --with-jpeg-dir --with-png-dir --with-gd
 
 #        --enable-static=YES \
@@ -90,7 +93,6 @@ RUN cd /opt/php-src-php-${PHP_VERSION} && \
 
 RUN cd /opt/php-src-php-${PHP_VERSION} && make install-cli && \
     cp /root/php-bin/bin/php /opt/bin/php-bin
-
 
 RUN env
 
@@ -108,6 +110,9 @@ RUN cd /opt && \
 
 # new requirement with 7.4.0
 RUN cp /usr/lib64/libonig.so.2 /opt/lib/libonig.so.2
+RUN cp /usr/lib64/libpq.so.5 /opt/lib/libpq.so.5
 
 RUN cd /opt && \
-    zip -r php74.zip bin ini lib ssl vendor bootstrap
+    zip -r php-${PHP_VERSION}.zip bin ini lib ssl vendor bootstrap
+RUN /opt/bin/php-bin -r "phpinfo();" > /opt/phpinfo.txt
+CMD ['/opt/scripts/loop']

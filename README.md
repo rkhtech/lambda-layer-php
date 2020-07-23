@@ -4,19 +4,28 @@ This is a pre-complied Lambda layer for PHP
 ## Current PHP Version: 7.4.x
 build date: (7.4.0 release date: Nov 28, 2019)
 
-
-## Usage and Deployment
-
+## Deploy directly from S3
 ```bash
-docker run -t --rm \
-    -e AWS_ACCESS_KEY_ID=YOURACCESSKEY \
-    -e AWS_SECRET_ACCESS_KEY=YOURSECRETACCESSKEY \
-    -e LAYER_NAME=php74 \
-    rkhtech/lambda-layer-php:74 deploy
+aws lambda publish-layer-version --layer-name LAMBDA-LAYER-PHP --content S3Bucket=rkh-pub,S3Key=lambda-layer-php/php-latest.zip
 ```
+This aws command will create a layer called 'LAMBDA-LAYER-PHP' into your AWS account.
+
+## Build Locally
+
+* Download all source files
+```bash
+git clone git@github.com:rkhtech/lambda-layer-php.git
+cd lambda-layer-php
+./build.sh
+```
+This will produce a local file called: `php-7.4.6.zip` in your local directory.  You can use this file to publish your lambda layer.
+
+## Publish your local build
+```bash
+aws lambda publish-layer-version --layer-name LAMBDA-LAYER-PHP --zip-file fileb://content.zip --compatible-runtimes provided
 
 This will deploy the lambda layer called 'php74' to aws lambda.
-If the layer already exists then it will deploy a new version of the layer with the same name.  
+If the layer already exists then it will deploy a new version of the layer with the same name.
 
 ### Expected output:
 ```json

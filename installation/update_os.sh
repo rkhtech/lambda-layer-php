@@ -11,8 +11,8 @@ mkdir -p /opt/{bin,src,ini,ssl,lib}/
 mkdir -p /opt/ssl/certs
 
 
+# Install Instructions: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install
 # Install AWS CLI
-curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python3 get-pip.py && \
-    pip3 install awscli
-
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install

@@ -27,13 +27,15 @@ ENV CMAKE_VERSION 3.16.0
 ENV LIBZIP_VERSION 1.5.2
 ENV FREETYPE_VERSION 2.10.1
 
-ENV PHP_VERSION 7.4.7
+ENV PHP_VERSION 7.4.10
 
-COPY installation/download_packages.sh /opt/installation/download_packages.sh
-RUN /opt/installation/download_packages.sh
+#COPY installation/download_packages.sh /opt/installation/download_packages.sh
+#RUN /opt/installation/download_packages.sh
 
 
 COPY opt/ /opt
+RUN ls -al /opt/downloads
+RUN cd /opt/downloads && ls -al && ./install_packages.sh
 ##COPY opt/build/download_packages.sh /opt/build/download_packages.sh
 #RUN /opt/build/download_packages.sh
 ##COPY opt/build/update_os.sh /opt/build/update_os.sh
@@ -66,7 +68,7 @@ RUN mkdir ~/php-bin
 RUN yum install -y oniguruma-devel postgresql-devel
 
 ## Compile PHP with OpenSSL 1.0.1 support, and install to /home/ec2-user/php-bin
-RUN cd /opt/php-src-php-${PHP_VERSION} && \
+RUN cd /opt/php-${PHP_VERSION} && \
     ./buildconf --force && \
     LD_LIBRARY_PATH=/opt/lib ./configure --prefix=/root/php-bin/ \
         --disable-shared \
@@ -91,7 +93,7 @@ RUN cd /opt/php-src-php-${PHP_VERSION} && \
 #  --with-xpm-dir=DIR      GD: Set the path to libXpm install prefix
 #  --with-freetype-dir=DIR GD: Set the path to FreeType 2 install prefix
 
-RUN cd /opt/php-src-php-${PHP_VERSION} && make install-cli && \
+RUN cd /opt/php-${PHP_VERSION} && make install-cli && \
     cp /root/php-bin/bin/php /opt/bin/php-bin
 
 RUN env
@@ -111,6 +113,8 @@ RUN cd /opt && \
 # new requirement with 7.4.0
 RUN cp /usr/lib64/libonig.so.2 /opt/lib/libonig.so.2
 RUN cp /usr/lib64/libpq.so.5 /opt/lib/libpq.so.5
+#RUN cp /usr/lib64/libpng15.so.15.13.0 /opt/lib/libpng15.so.15
+#RUN cp /usr/lib64/libc-2.26.so /opt/lib/libc.so.6
 
 RUN cd /opt && \
     zip -r php-${PHP_VERSION}.zip bin ini lib ssl vendor bootstrap

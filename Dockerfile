@@ -21,13 +21,22 @@ COPY installation/update_os.sh /opt/installation/update_os.sh
 RUN /opt/installation/update_os.sh
 
 ENV OPENSSL_VERSION 1.0.2t
-ENV BISON_VERSION 3.4
-ENV MEMCACHED_VERSION 3.1.5
-ENV CMAKE_VERSION 3.16.0
-ENV LIBZIP_VERSION 1.5.2
-ENV FREETYPE_VERSION 2.10.1
 
-ENV PHP_VERSION 7.4.10
+# OLD BISON 3.5
+ENV BISON_VERSION 3.7
+
+ENV MEMCACHED_VERSION 3.1.5
+
+# old 3.16.0    also try 3.16.9
+ENV CMAKE_VERSION 3.18.3
+
+# OLD LIBZIP 1.5.2
+ENV LIBZIP_VERSION 1.7.3
+
+#old FREETYPE 2.10.1
+ENV FREETYPE_VERSION 2.10.2
+
+ENV PHP_VERSION 7.4.11
 
 #COPY installation/download_packages.sh /opt/installation/download_packages.sh
 #RUN /opt/installation/download_packages.sh

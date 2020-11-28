@@ -36,7 +36,7 @@ ENV LIBZIP_VERSION 1.7.3
 #old FREETYPE 2.10.1
 ENV FREETYPE_VERSION 2.10.2
 
-ENV PHP_VERSION 7.4.11
+ENV PHP_VERSION 7.4.12
 
 #COPY installation/download_packages.sh /opt/installation/download_packages.sh
 #RUN /opt/installation/download_packages.sh

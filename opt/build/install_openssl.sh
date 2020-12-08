@@ -9,6 +9,12 @@
 cd /opt
 
 case $OPENSSL_VERSION in
+1.1.1h)
+# Default directory is /usr/local/ssl
+    cd openssl-${OPENSSL_VERSION} && ./config && ./Configure linux-x86
+#    cd openssl-${OPENSSL_VERSION} && ./config && ./Configure --prefix=/opt/ssl  --openssldir=/opt/ssl linux-x86
+    make && make install
+;;
 1.1.1d)
 # Default directory is /usr/local/ssl
     cd openssl-${OPENSSL_VERSION} && ./config && ./Configure linux-x86

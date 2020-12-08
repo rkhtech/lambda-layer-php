@@ -2,6 +2,20 @@
 
 $(cat ../../Dockerfile | grep ENV | grep -v '^#' | awk '{print "export "$2"="$3}')
 
+if [ ! -f php-${PHP_VERSION}.tar.gz ]; then
+  echo Downloading PHP_VERSION ${PHP_VERSION}
+  #curl -sL https://github.com/php/php-src/archive/php-${PHP_VERSION}.tar.gz | tar -xz
+  wget https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz
+  if [ $PHP_SHA256 == $(openssl sha256 php-${PHP_VERSION}.tar.gz | cut -d' ' -f2) ]; then
+#    tar -xzf php-${PHP_VERSION}.tar.gz
+    echo "php download passed sha256 signature validation"
+  else
+    rm php-${PHP_VERSION}.tar.gz
+    echo "php download doesn't pass sha256 signature"
+    exit 1
+  fi
+fi
+
 if [ ! -f memcached-${MEMCACHED_VERSION}.tgz ]; then
   echo Downloading MEMCACHED_VERSION ${MEMCACHED_VERSION}
   wget http://pecl.php.net/get/memcached-${MEMCACHED_VERSION}.tgz
@@ -10,12 +24,6 @@ fi
 if [ ! -f openssl-${OPENSSL_VERSION}.tar.gz ]; then
   echo Downloading OPENSSL_VERSION ${OPENSSL_VERSION}
   wget http://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-fi
-
-if [ ! -f php-${PHP_VERSION}.tar.gz ]; then
-  echo Downloading PHP_VERSION ${PHP_VERSION}
-  #curl -sL https://github.com/php/php-src/archive/php-${PHP_VERSION}.tar.gz | tar -xz
-  wget https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz | tar -xz
 fi
 
 if [ ! -f cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz ]; then

@@ -4,7 +4,7 @@ cd opt/downloads
 ./download_packages.sh
 cd ../..
 
-docker pull amazonlinux:1
+docker pull amazonlinux:2
 
 time docker build -t rkhtech/lambda-layer-php:latest .
 

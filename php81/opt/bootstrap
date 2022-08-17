@@ -4,6 +4,7 @@
 // This invokes Composer's autoloader so that we'll be able to use Guzzle and any other 3rd party libraries we need.
 require __DIR__ . '/vendor/autoload.php';
 $_EVENT = [];
+$_CONTEXT = [];
 
 // This is the request processing loop. Barring unrecoverable failure, this loop runs until the environment shuts down.
 do {
@@ -18,6 +19,7 @@ do {
     echo "LAYER EVENT: ".json_encode($request['payload'])."\n";
     $_EVENT = $request['payload'];
     echo "LAYER CONTEXT: ".json_encode($request['context'])."\n";
+    $_CONTEXT = $request['context'];
     $response = $handlerFunction($request['payload'],$request['context']);
 
     // Submit the response back to the runtime API.

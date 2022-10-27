@@ -3,6 +3,9 @@
 
 // This invokes Composer's autoloader so that we'll be able to use Guzzle and any other 3rd party libraries we need.
 require __DIR__ . '/vendor/autoload.php';
+// AUTOLOAD_PATH:  /opt/vendor/autoload.php
+//echo "AUTOLOAD: ".__DIR__.'/vendor/autoload.php';
+
 $_EVENT = [];
 $_CONTEXT = [];
 

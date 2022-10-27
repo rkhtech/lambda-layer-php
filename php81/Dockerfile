@@ -78,8 +78,8 @@ ENV PHPREDIS_VERSION 5.3.4
 ENV PHPREDIS_VERSION 5.3.7
 
 
-ENV PHP_VERSION 8.1.9
-ENV PHP_SHA256 954cf77f7e0a70dc765e7639acdfdccd164be5cd1bce3dbe9d10c58dca631e76
+ENV PHP_VERSION 8.1.11
+ENV PHP_SHA256 3660e8408321149f5d382bb8eeb9ea7b12ea8dd7ea66069da33f6f7383750ab2
 
 COPY opt/ /opt
 #RUN ls -al /opt/downloads
@@ -150,7 +150,7 @@ RUN env
 # Installing guzzle and awssdk
 RUN cd /opt && \
     curl -sS https://getcomposer.org/installer | /opt/bin/php && \
-    /opt/bin/php composer.phar require aws/aws-sdk-php
+    /opt/bin/php -d memory_limit-1 composer.phar require aws/aws-sdk-php
 
 # new requirement with 7.4.0
 RUN cp /usr/lib64/libjpeg.so.62        /opt/lib/libjpeg.so.62

@@ -35,7 +35,6 @@ RUN /opt/installation/update_os.sh
 ENV OPENSSL_VERSION 3.1.2
 
 
-
 # Download http://ftp.gnu.org/gnu/bison/
 #ENV BISON_VERSION 3.7
 # bison-3.7.4.tar.gz	2020-11-14 06:33	4.7M
@@ -78,15 +77,14 @@ ENV LIBZIP_VERSION 1.10.1
 ENV FREETYPE_VERSION 2.13.2
 
 
-
 ## PHPREDIS: Download Versions: https://github.com/phpredis/phpredis/tags
 ENV PHPREDIS_VERSION 5.3.4
-## 5.3.7 - on Feb 15
+## 5.3.7 - on Feb 15, 2022
 ENV PHPREDIS_VERSION 5.3.7
 
 
-ENV PHP_VERSION 8.1.22
-ENV PHP_SHA256 f5140e94b139b4adec4b29c337537b7b6f1ef023197eb32be909e724e3da157a
+ENV PHP_VERSION 8.2.12
+ENV PHP_SHA256 b2b74a91f5fac14ce10ece0ac210f6f5d72f4367a3cb638e80d117d183750a21
 
 COPY opt/ /opt
 #RUN ls -al /opt/downloads

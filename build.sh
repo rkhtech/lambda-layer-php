@@ -2,12 +2,19 @@
 
 set -e
 
-if [[ ! -d $1 ]]; then
+php_version=$(cat default-php-version)
+
+if [[ ! -z $1 ]];then
+  php_version=$1
+fi
+
+
+if [[ ! -d $php_version ]]; then
   echo "usage: ./build.sh phpversiondir"
   exit 1
 fi
 
-cd $1
+cd $php_version
 
 cd opt/downloads
 ./download_packages.sh

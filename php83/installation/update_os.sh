@@ -4,11 +4,9 @@ set -e
 
 #######################  UPDATE OS
 
-yum update -y
-yum install -y autoconf bison diffutils freetype-devel gcc gcc-c++ glibc-devel glibc-devel.i686 gmp gmp-devel \
+yum install -y autoconf bison diffutils freetype-devel gcc gcc-c++ glibc-devel gmp gmp-devel \
   help2man libcurl-devel libjpeg libjpeg-turbo-devel libpng libpng-devel libxml2-devel make mlocate openssl-devel \
-  php-devel python36 re2c texi2html texinfo libmemcached-devel postgresql-devel oniguruma-devel \
-  git gzip jq tar unzip vim wget zip sqlite-devel
+  php-devel re2c texi2html texinfo libmemcached-devel postgresql-devel oniguruma-devel
 
 
 

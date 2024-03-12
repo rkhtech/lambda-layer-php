@@ -1,0 +1,73 @@
+#!/opt/bin/php
+<?php
+
+// This invokes Composer's autoloader so that we'll be able to use Guzzle and any other 3rd party libraries we need.
+require __DIR__ . '/vendor/autoload.php';
+// AUTOLOAD_PATH:  /opt/vendor/autoload.php
+//echo "AUTOLOAD: ".__DIR__.'/vendor/autoload.php';
+
+$_EVENT = [];
+$_CONTEXT = [];
+
+// This is the request processing loop. Barring unrecoverable failure, this loop runs until the environment shuts down.
+do {
+    // Ask the runtime API for a request to handle.
+    $request = getNextRequest();
+
+    // Obtain the function name from the _HANDLER environment variable and ensure the function's code is available.
+    list($handlerCode,$handlerFunction) = explode('.', $_ENV['_HANDLER']);
+    require_once $_ENV['LAMBDA_TASK_ROOT'] . '/src/' . $handlerCode . '.php';
+
+    // Execute the desired function and obtain the response.
+    echo "LAYER EVENT: ".json_encode($request['payload'])."\n";
+    $_EVENT = $request['payload'];
+    echo "LAYER CONTEXT: ".json_encode($request['context'])."\n";
+    $_CONTEXT = $request['context'];
+    $response = $handlerFunction($request['payload'],$request['context']);
+
+    // Submit the response back to the runtime API.
+    sendResponse($request['invocationId'], $response);
+} while (true);
+
+
+function getNextRequest()
+{
+    $client = new \GuzzleHttp\Client();
+    $response = $client->get('http://' . $_ENV['AWS_LAMBDA_RUNTIME_API'] . '/2018-06-01/runtime/invocation/next');
+
+    $functionArn = $response->getHeader('Lambda-Runtime-Invoked-Function-Arn')[0];
+    $arnArray = explode(':',$functionArn);
+    $functionAlias = NULL;
+    if ((end($arnArray) != $_ENV['AWS_LAMBDA_FUNCTION_NAME']) &&
+        (end($arnArray) != $_ENV['AWS_LAMBDA_FUNCTION_VERSION'])) {
+        $functionAlias = end($arnArray);
+    }
+    return [
+        'invocationId' => $response->getHeader('Lambda-Runtime-Aws-Request-Id')[0],
+        'payload' => json_decode((string) $response->getBody(), true),
+        'context' => [
+            "logGroupName" => $_ENV['AWS_LAMBDA_LOG_GROUP_NAME'],
+            "logStreamName" => $_ENV['AWS_LAMBDA_LOG_STREAM_NAME'],
+            "functionName" => $_ENV['AWS_LAMBDA_FUNCTION_NAME'],
+            "memoryLimitInMB" => $_ENV['AWS_LAMBDA_FUNCTION_MEMORY_SIZE'],
+            "functionVersion" => $_ENV['AWS_LAMBDA_FUNCTION_VERSION'],
+            "invokeid" => $response->getHeader('Lambda-Runtime-Aws-Request-Id')[0],
+            "awsRequestId" => $response->getHeader('Lambda-Runtime-Aws-Request-Id')[0],
+            "invokedFunctionArn" => $functionArn,
+
+            "functionAlias" => $functionAlias,
+            "awsRegion" => $_ENV['AWS_DEFAULT_REGION'],
+            "lambdaDeadlineMs" => $response->getHeader('Lambda-Runtime-Deadline-Ms')[0],
+            "date" => $response->getHeader('Date')[0],
+        ],
+    ];
+}
+
+function sendResponse($invocationId, $response)
+{
+    $client = new \GuzzleHttp\Client();
+    $client->post(
+        'http://' . $_ENV['AWS_LAMBDA_RUNTIME_API'] . '/2018-06-01/runtime/invocation/' . $invocationId . '/response',
+        ['body' => $response]
+    );
+}

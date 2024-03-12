@@ -1,4 +1,4 @@
-FROM amazonlinux:2
+FROM public.ecr.aws/amazonlinux/amazonlinux:2
 
 #######################  REFERENCES:
 
@@ -18,8 +18,6 @@ FROM amazonlinux:2
 # https://www.freetype.org/download.html
 
 COPY installation/update_os.sh /opt/installation/update_os.sh
-RUN yum update -y && \
-    yum install -y git gzip jq tar unzip vim wget zip
 
 RUN /opt/installation/update_os.sh
 
@@ -32,7 +30,10 @@ RUN /opt/installation/update_os.sh
 #ENV OPENSSL_VERSION 1.1.1o
 
 # ENV OPENSSL_VERSION 3.0.3   -- retired on 2023-08-30
-ENV OPENSSL_VERSION 3.1.2
+#ENV OPENSSL_VERSION 3.1.2
+#-- Nov 13 2023 3.2.0
+#ENV OPENSSL_VERSION 3.1.4
+ENV OPENSSL_VERSION 3.2.0
 
 
 
@@ -57,7 +58,8 @@ ENV MEMCACHE_VERSION 8.2
 # https://github.com/Kitware/CMake/releases/tag/v3.20.2   Released April 29, 2021
 #ENV CMAKE_VERSION 3.20.2
 #ENV CMAKE_VERSION 3.22.5
-ENV CMAKE_VERSION 3.27.4
+#ENV CMAKE_VERSION 3.27.4
+ENV CMAKE_VERSION 3.28.1
 
 # Download: https://libzip.org/news/
 # Released libzip 1.7.3 - July 15, 2020
@@ -80,13 +82,14 @@ ENV FREETYPE_VERSION 2.13.2
 
 
 ## PHPREDIS: Download Versions: https://github.com/phpredis/phpredis/tags
-ENV PHPREDIS_VERSION 5.3.4
+#ENV PHPREDIS_VERSION 5.3.4
 ## 5.3.7 - on Feb 15
-ENV PHPREDIS_VERSION 5.3.7
+#ENV PHPREDIS_VERSION 5.3.7
+ENV PHPREDIS_VERSION 6.0.2
 
 
-ENV PHP_VERSION 8.1.25
-ENV PHP_SHA256 1a8c59d6b3eccb404c229e947558d2bf1220c3dec0b0036690fadc07f39934ab
+ENV PHP_VERSION 8.1.27
+ENV PHP_SHA256 9aa5d7a29389d799885d90740932697006d5d0f55d1def67678e0c14f6ab7b2d
 
 COPY opt/ /opt
 #RUN ls -al /opt/downloads

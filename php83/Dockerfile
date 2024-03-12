@@ -1,4 +1,4 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:2
+FROM public.ecr.aws/amazonlinux/amazonlinux:2023
 
 #######################  REFERENCES:
 
@@ -32,7 +32,9 @@ RUN /opt/installation/update_os.sh
 #ENV OPENSSL_VERSION 1.1.1o
 
 # ENV OPENSSL_VERSION 3.0.3   -- retired on 2023-08-30
-ENV OPENSSL_VERSION 3.1.2
+#ENV OPENSSL_VERSION 3.1.2
+# updated on 2023-12-06
+ENV OPENSSL_VERSION 3.2.0
 
 
 # Download http://ftp.gnu.org/gnu/bison/
@@ -83,8 +85,8 @@ ENV PHPREDIS_VERSION 5.3.4
 ENV PHPREDIS_VERSION 5.3.7
 
 
-ENV PHP_VERSION 8.2.14
-ENV PHP_SHA256 4c1fbb55a10ece7f4532feba9f3f88b9b211c11320742977588738374c03255f
+ENV PHP_VERSION 8.3.1
+ENV PHP_SHA256 2b10218b5e81915d1708ab4b6351362d073556ec73a790553c61fd89c119924e
 
 COPY opt/ /opt
 #RUN ls -al /opt/downloads
@@ -158,11 +160,11 @@ RUN cd /opt && \
     /opt/bin/php -d memory_limit-1 composer.phar require aws/aws-sdk-php
 
 # new requirement with 7.4.0
-RUN cp /usr/lib64/libjpeg.so.62        /opt/lib/libjpeg.so.62
+#RUN cp /usr/lib64/libjpeg.so.62        /opt/lib/libjpeg.so.62
 RUN cp /usr/lib64/libpq.so.5           /opt/lib/libpq.so.5
-RUN cp /usr/lib64/libpng15.so.15.13.0  /opt/lib/libpng15.so.15
-RUN cp /usr/lib64/libfreetype.so.6     /opt/lib/libfreetype.so.6
-RUN cp /usr/lib64/libonig.so.2         /opt/lib/libonig.so.2
+#RUN cp /usr/lib64/libpng15.so.15.13.0  /opt/lib/libpng15.so.15
+#RUN cp /usr/lib64/libfreetype.so.6     /opt/lib/libfreetype.so.6
+#RUN cp /usr/lib64/libonig.so.2         /opt/lib/libonig.so.2
 
 RUN cd /opt && \
     zip -r php-${PHP_VERSION}.zip bin ini lib ssl vendor bootstrap
